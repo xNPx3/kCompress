@@ -40,8 +40,11 @@
             Label label11;
             Label label12;
             Label label15;
+            GroupBox groupBox13;
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             pictureBox1 = new PictureBox();
+            dataGridView3 = new DataGridView();
             statusStrip1 = new StatusStrip();
             toolStripProgressBar1 = new ToolStripProgressBar();
             toolStripStatusLabel2 = new ToolStripStatusLabel();
@@ -57,6 +60,10 @@
             numericUpDown1 = new NumericUpDown();
             label10 = new Label();
             groupBox9 = new GroupBox();
+            groupBox12 = new GroupBox();
+            label17 = new Label();
+            label18 = new Label();
+            trackBar2 = new TrackBar();
             groupBox11 = new GroupBox();
             radioButton2 = new RadioButton();
             radioButton1 = new RadioButton();
@@ -82,15 +89,11 @@
             dataGridView2 = new DataGridView();
             tabPage3 = new TabPage();
             tableLayoutPanel4 = new TableLayoutPanel();
-            compressBtn = new Button();
             groupBox6 = new GroupBox();
             richTextBox1 = new RichTextBox();
+            compressBtn = new Button();
             openFileDialog1 = new OpenFileDialog();
             saveFileDialog1 = new SaveFileDialog();
-            trackBar2 = new TrackBar();
-            label17 = new Label();
-            label18 = new Label();
-            groupBox12 = new GroupBox();
             groupBox1 = new GroupBox();
             label1 = new Label();
             label2 = new Label();
@@ -102,8 +105,11 @@
             label11 = new Label();
             label12 = new Label();
             label15 = new Label();
+            groupBox13 = new GroupBox();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            groupBox13.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView3).BeginInit();
             statusStrip1.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -116,6 +122,8 @@
             groupBox10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             groupBox9.SuspendLayout();
+            groupBox12.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBar2).BeginInit();
             groupBox11.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)targetFSize).BeginInit();
@@ -130,8 +138,6 @@
             tabPage3.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
             groupBox6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)trackBar2).BeginInit();
-            groupBox12.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
@@ -202,6 +208,45 @@
             // 
             resources.ApplyResources(label15, "label15");
             label15.Name = "label15";
+            // 
+            // groupBox13
+            // 
+            groupBox13.Controls.Add(dataGridView3);
+            resources.ApplyResources(groupBox13, "groupBox13");
+            groupBox13.Name = "groupBox13";
+            groupBox13.TabStop = false;
+            // 
+            // dataGridView3
+            // 
+            dataGridView3.AllowUserToAddRows = false;
+            dataGridView3.AllowUserToDeleteRows = false;
+            dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView3.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
+            dataGridView3.BackgroundColor = SystemColors.Window;
+            dataGridView3.BorderStyle = BorderStyle.None;
+            dataGridView3.CausesValidation = false;
+            dataGridView3.CellBorderStyle = DataGridViewCellBorderStyle.SingleVertical;
+            dataGridView3.ClipboardCopyMode = DataGridViewClipboardCopyMode.Disable;
+            dataGridView3.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView3.ColumnHeadersVisible = false;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Window;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Window;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
+            dataGridView3.DefaultCellStyle = dataGridViewCellStyle1;
+            resources.ApplyResources(dataGridView3, "dataGridView3");
+            dataGridView3.Name = "dataGridView3";
+            dataGridView3.ReadOnly = true;
+            dataGridView3.RowHeadersVisible = false;
+            dataGridView3.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dataGridView3.ShowCellErrors = false;
+            dataGridView3.ShowEditingIcon = false;
+            dataGridView3.ShowRowErrors = false;
+            dataGridView3.StandardTab = true;
+            dataGridView3.Paint += dataGridView3_Paint;
             // 
             // statusStrip1
             // 
@@ -338,6 +383,34 @@
             groupBox9.Controls.Add(label9);
             groupBox9.Name = "groupBox9";
             groupBox9.TabStop = false;
+            // 
+            // groupBox12
+            // 
+            groupBox12.Controls.Add(label17);
+            groupBox12.Controls.Add(label18);
+            groupBox12.Controls.Add(trackBar2);
+            resources.ApplyResources(groupBox12, "groupBox12");
+            groupBox12.Name = "groupBox12";
+            groupBox12.TabStop = false;
+            // 
+            // label17
+            // 
+            resources.ApplyResources(label17, "label17");
+            label17.Name = "label17";
+            // 
+            // label18
+            // 
+            resources.ApplyResources(label18, "label18");
+            label18.Name = "label18";
+            // 
+            // trackBar2
+            // 
+            resources.ApplyResources(trackBar2, "trackBar2");
+            trackBar2.LargeChange = 2;
+            trackBar2.Maximum = 8;
+            trackBar2.Name = "trackBar2";
+            trackBar2.TickStyle = TickStyle.Both;
+            trackBar2.Value = 3;
             // 
             // groupBox11
             // 
@@ -518,14 +591,14 @@
             dataGridView2.ClipboardCopyMode = DataGridViewClipboardCopyMode.Disable;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView2.ColumnHeadersVisible = false;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Window;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Window;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
-            dataGridView2.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Window;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dataGridView2.DefaultCellStyle = dataGridViewCellStyle2;
             resources.ApplyResources(dataGridView2, "dataGridView2");
             dataGridView2.Name = "dataGridView2";
             dataGridView2.ReadOnly = true;
@@ -546,29 +619,19 @@
             // 
             // tableLayoutPanel4
             // 
+            tableLayoutPanel4.BackColor = Color.Transparent;
             resources.ApplyResources(tableLayoutPanel4, "tableLayoutPanel4");
-            tableLayoutPanel4.Controls.Add(compressBtn, 1, 0);
             tableLayoutPanel4.Controls.Add(groupBox6, 0, 0);
+            tableLayoutPanel4.Controls.Add(compressBtn, 1, 1);
+            tableLayoutPanel4.Controls.Add(groupBox13, 1, 0);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
-            // 
-            // compressBtn
-            // 
-            resources.ApplyResources(compressBtn, "compressBtn");
-            compressBtn.BackColor = SystemColors.ActiveCaption;
-            compressBtn.FlatAppearance.BorderColor = Color.Lime;
-            compressBtn.FlatAppearance.BorderSize = 5;
-            compressBtn.FlatAppearance.MouseDownBackColor = Color.Coral;
-            compressBtn.FlatAppearance.MouseOverBackColor = SystemColors.Highlight;
-            compressBtn.ForeColor = Color.Honeydew;
-            compressBtn.Name = "compressBtn";
-            compressBtn.UseVisualStyleBackColor = false;
-            compressBtn.Click += compressBtn_Click;
             // 
             // groupBox6
             // 
             groupBox6.Controls.Add(richTextBox1);
             resources.ApplyResources(groupBox6, "groupBox6");
             groupBox6.Name = "groupBox6";
+            tableLayoutPanel4.SetRowSpan(groupBox6, 2);
             groupBox6.TabStop = false;
             // 
             // richTextBox1
@@ -577,6 +640,13 @@
             resources.ApplyResources(richTextBox1, "richTextBox1");
             richTextBox1.Name = "richTextBox1";
             richTextBox1.ReadOnly = true;
+            // 
+            // compressBtn
+            // 
+            resources.ApplyResources(compressBtn, "compressBtn");
+            compressBtn.Name = "compressBtn";
+            compressBtn.UseVisualStyleBackColor = true;
+            compressBtn.Click += compressBtn_Click;
             // 
             // openFileDialog1
             // 
@@ -587,34 +657,6 @@
             // 
             saveFileDialog1.DefaultExt = "mp4";
             resources.ApplyResources(saveFileDialog1, "saveFileDialog1");
-            // 
-            // trackBar2
-            // 
-            resources.ApplyResources(trackBar2, "trackBar2");
-            trackBar2.LargeChange = 2;
-            trackBar2.Maximum = 8;
-            trackBar2.Name = "trackBar2";
-            trackBar2.TickStyle = TickStyle.Both;
-            trackBar2.Value = 3;
-            // 
-            // label17
-            // 
-            resources.ApplyResources(label17, "label17");
-            label17.Name = "label17";
-            // 
-            // label18
-            // 
-            resources.ApplyResources(label18, "label18");
-            label18.Name = "label18";
-            // 
-            // groupBox12
-            // 
-            groupBox12.Controls.Add(label17);
-            groupBox12.Controls.Add(label18);
-            groupBox12.Controls.Add(trackBar2);
-            resources.ApplyResources(groupBox12, "groupBox12");
-            groupBox12.Name = "groupBox12";
-            groupBox12.TabStop = false;
             // 
             // Form1
             // 
@@ -630,6 +672,8 @@
             DragLeave += Form1_DragLeave;
             groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            groupBox13.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView3).EndInit();
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
             tabControl1.ResumeLayout(false);
@@ -646,6 +690,9 @@
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             groupBox9.ResumeLayout(false);
             groupBox9.PerformLayout();
+            groupBox12.ResumeLayout(false);
+            groupBox12.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBar2).EndInit();
             groupBox11.ResumeLayout(false);
             groupBox11.PerformLayout();
             tableLayoutPanel3.ResumeLayout(false);
@@ -664,9 +711,6 @@
             tabPage3.ResumeLayout(false);
             tableLayoutPanel4.ResumeLayout(false);
             groupBox6.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)trackBar2).EndInit();
-            groupBox12.ResumeLayout(false);
-            groupBox12.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -718,7 +762,6 @@
         private TableLayoutPanel tableLayoutPanel4;
         private GroupBox groupBox6;
         private RichTextBox richTextBox1;
-        private Button compressBtn;
         private GroupBox groupBox11;
         private RadioButton radioButton2;
         private RadioButton radioButton1;
@@ -727,5 +770,7 @@
         private Label label18;
         private Label label17;
         private GroupBox groupBox12;
+        private Button compressBtn;
+        private DataGridView dataGridView3;
     }
 }

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using Squirrel;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using System.Windows.Forms;
@@ -42,6 +43,7 @@ namespace kCompress
         public Form1()
         {
             InitializeComponent();
+            Icon = Resources.video_1024x1024;
             statusStrip1.Padding = new Padding(statusStrip1.Padding.Left, statusStrip1.Padding.Top, statusStrip1.Padding.Left, statusStrip1.Padding.Bottom);
 
             videoResolutions = new VideoResolution[]
@@ -66,6 +68,28 @@ namespace kCompress
 
             richTextBox1.GotFocus += (s, e) => { HideCaret(richTextBox1.Handle); };
             richTextBox1.SelectionChanged += (s, e) => { HideCaret(richTextBox1.Handle); };
+
+#if (!DEBUG)
+            CheckForUpdates();
+#endif
+        }
+
+        public static async void CheckForUpdates()
+        {
+            try
+            {
+                using (var mgr = await UpdateManager.GitHubUpdateManager("https://github.com/xNPx3/QCompress"))
+                {
+                    var release = await mgr.UpdateApp();
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = "UpdateManager:" + Environment.NewLine + ex.Message + Environment.NewLine;
+                if (ex.InnerException != null)
+                    message += ex.InnerException.Message;
+                MessageBox.Show(message);
+            }
         }
 
         void ChangeBitrate()
@@ -185,103 +209,6 @@ namespace kCompress
             numericUpDown1.Value = vs_video.Framerate;
 
             presetComboBox.SelectedItem = videoResolutions.ToList().Find(v => v.Width == vs_video.Width && v.Height == vs_video.Height);
-        }
-
-        struct VideoSettings()
-        {
-            public int Width { get; set; } = 1;
-            public int Height { get; set; } = 1;
-            public string AspectRatio { get => $"{Width / GCD(Width, Height)}:{Height / GCD(Width, Height)}"; }
-            public int StartSeconds { get; set; }
-            public int EndSeconds { get; set; }
-            public int Length { get; set; }
-            public TimeSpan Start { get; set; }
-            public TimeSpan End { get; set; }
-            public int Framerate { get; set; }
-            public bool AudioMuted { get; set; }
-            public decimal AudioVolume { get; set; } = 1;
-
-            public override string ToString()
-            {
-                string o = string.Empty;
-                foreach (PropertyInfo p in typeof(VideoSettings).GetProperties())
-                {
-                    o += $"{p.Name}: {p.GetValue(this)}{Environment.NewLine}";
-                }
-                return o;
-            }
-            private static int GCD(int a, int b)
-            {
-                while (a != 0 && b != 0)
-                {
-                    if (a > b)
-                        a %= b;
-                    else
-                        b %= a;
-                }
-
-                return a | b;
-            }
-        }
-        public class VideoResolution
-        {
-            public VideoResolution(int w, int h)
-            {
-                Width = w;
-                Height = h;
-                Text = Text = $"{Width} x {Height} ({Width / GCD(Width, Height)}:{Height / GCD(Width, Height)})";
-            }
-            public int Width { get; }
-            public int Height { get; }
-            public string Text { get; }
-            private static int GCD(int a, int b)
-            {
-                while (a != 0 && b != 0)
-                {
-                    if (a > b)
-                        a %= b;
-                    else
-                        b %= a;
-                }
-
-                return a | b;
-            }
-        }
-        public class VideoResolutionC
-        {
-            public int Width { get; set; }
-            public int Height { get; set; }
-            public string? Text { get; set; }
-        }
-        StreamReader FF(string exec, string args, ProcessStartInfo? info = null)
-        {
-            ProcessStartInfo startInfo = new ProcessStartInfo
-            {
-                FileName = Path.Join($"{exec}.exe"),
-                Arguments = args,
-                UseShellExecute = false,
-                WindowStyle = ProcessWindowStyle.Hidden,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                CreateNoWindow = true,
-            };
-
-            if (info != null)
-                startInfo = info;
-
-            try
-            {
-                Debug.WriteLine($"Running {startInfo.FileName} {startInfo.Arguments}");
-                Process p = Process.Start(startInfo)!;
-                return p.StandardOutput;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error trying to start process", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Environment.Exit(1);
-            }
-
-            return StreamReader.Null;
         }
 
         private void Form1_DragDrop(object sender, DragEventArgs e)
@@ -418,9 +345,6 @@ namespace kCompress
 
             toolStripProgressBar1.Value = toolStripProgressBar1.Minimum;
             compressBtn.Enabled = false;
-            //groupBox1.Enabled = false;
-            //groupBox3.Enabled = false;
-            //statusLabel.Text = "Status: PROCESSING";
 
             // Set custom output resolution if enabled
             string scale = "";
@@ -468,7 +392,7 @@ namespace kCompress
 
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
-                FileName = Path.Join("", "ffmpeg.exe"),
+                FileName = Path.Join(AppSettings.Default.FFmpegPath, "ffmpeg.exe"),
                 Arguments = $"-y {trimStart}{trimEnd}-i \"{videoPath}\" {scale}{muteAudio}{volume}{framerate}-vcodec libx264 {compression}{preset}-loglevel error -progress - -nostats \"{outputPath}\"",
                 UseShellExecute = false,
                 WindowStyle = ProcessWindowStyle.Hidden,
@@ -565,14 +489,23 @@ namespace kCompress
             }
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private void dataGridView3_Paint(object sender, PaintEventArgs e)
         {
-            //radioButton2.Checked = false;
-        }
+            if (vLoaded)
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Key");
+                dt.Columns.Add("Value");
+                foreach (PropertyInfo p in typeof(VideoSettings).GetProperties())
+                {
+                    dt.Rows.Add(p.Name, p.GetValue(vs_video));
+                }
 
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-            //radioButton1.Checked = false;
+                dt.Rows.Add("CompressionMode", radioButton1.Checked ? "Bitrate" : "CRF");
+                dt.Rows.Add("TargetSize", targetFSize.Value);
+
+                dataGridView3.DataSource = dt;
+            }
         }
     }
 }

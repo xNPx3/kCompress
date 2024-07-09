@@ -5,5 +5,8 @@
     <Setting Name="FFmpegPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="UpdateRepo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://github.com/xNPx3/kCompress</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -78,7 +78,7 @@ namespace kCompress
         {
             try
             {
-                using (var mgr = await UpdateManager.GitHubUpdateManager("https://github.com/xNPx3/QCompress"))
+                using (var mgr = await UpdateManager.GitHubUpdateManager(AppSettings.Default.UpdateRepo))
                 {
                     var release = await mgr.UpdateApp();
                 }

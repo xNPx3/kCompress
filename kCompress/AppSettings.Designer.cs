@@ -34,5 +34,17 @@ namespace kCompress {
                 this["FFmpegPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://github.com/xNPx3/kCompress")]
+        public string UpdateRepo {
+            get {
+                return ((string)(this["UpdateRepo"]));
+            }
+            set {
+                this["UpdateRepo"] = value;
+            }
+        }
     }
 }
